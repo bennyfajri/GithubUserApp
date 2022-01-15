@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/drawable/bg_button_disabled.xml" value="0.1" />
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/drawable/bg_button_enabled.xml" value="0.1" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/drawable/ic_location.xml" value="0.2703125" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/activity_detail.xml" value="0.18947368421052632" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/activity_splash.xml" value="0.1" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/item_data.xml" value="0.264" />
       </map>
     </option>
