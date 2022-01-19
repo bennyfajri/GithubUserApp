@@ -34,7 +34,6 @@
 
     <style name="TextView.SubTitle">
         <item name="android:textSize">17sp</item>
-        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="TextView.Content">

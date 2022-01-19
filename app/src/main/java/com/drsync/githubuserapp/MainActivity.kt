@@ -1,9 +1,15 @@
 package com.drsync.githubuserapp
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.View
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.drsync.githubuserapp.databinding.ActivityMainBinding
@@ -11,7 +17,7 @@ import com.drsync.githubuserapp.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    private var list = ArrayList<User>()
+    private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,40 +26,51 @@ class MainActivity : AppCompatActivity() {
 
         binding.rvUser.setHasFixedSize(true)
 
-        list.addAll(listUsers)
-        showRecyclerList()
+        mainViewModel.searchUser.observe(this@MainActivity, { response ->
+            showRecyclerList(response)
+        })
 
+        mainViewModel.isLoading.observe(this, { loading ->
+            showLoading(loading)
+        })
     }
 
-    private val listUsers: ArrayList<User>
-    get() {
-        val dataUsername = resources.getStringArray(R.array.username)
-        val dataName = resources.getStringArray(R.array.name)
-        val dataLocation = resources.getStringArray(R.array.location)
-        val dataRepository = resources.getStringArray(R.array.repository)
-        val dataCompany = resources.getStringArray(R.array.company)
-        val dataFollowers = resources.getStringArray(R.array.followers)
-        val dataFollowing = resources.getStringArray(R.array.following)
-        val dataAvatar = resources.obtainTypedArray(R.array.avatar)
-        val listUser = ArrayList<User>()
-        for (i in dataUsername.indices) {
-            val user = User(dataUsername[i], dataName[i], dataAvatar.getResourceId(i, -1), dataFollowers[i], dataFollowing[i], dataCompany[i], dataLocation[i], dataRepository[i])
-            listUser.add(user)
-        }
-        return listUser
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.option_menu, menu)
+
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu.findItem(R.id.search).actionView as SearchView
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searchView.queryHint = resources.getString(R.string.search_hint)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                mainViewModel.getSearchUser(query)
+                return true
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+        return true
     }
 
-    private fun showRecyclerList() {
+    private fun showLoading(loading: Boolean) {
+        binding.progress.progressBar.visibility = if(loading) View.VISIBLE else View.GONE
+    }
+
+    private fun showRecyclerList(response: ArrayList<RemoteUser>) {
         if (applicationContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             binding.rvUser.layoutManager = GridLayoutManager(this, 2)
         } else {
             binding.rvUser.layoutManager = LinearLayoutManager(this)
         }
-        val userAdapter = UserAdapter(list)
+        val userAdapter = UserAdapter(response)
         binding.rvUser.adapter = userAdapter
 
-        userAdapter.setOnItemClickCallback(object: UserAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: User) {
+        userAdapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: RemoteUser) {
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
                 intent.putExtra("data", data)
                 startActivity(intent)
