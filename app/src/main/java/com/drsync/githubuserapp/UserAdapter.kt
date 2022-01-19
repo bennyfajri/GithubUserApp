@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.drsync.githubuserapp.databinding.ItemDataBinding
 
-class UserAdapter(private val listUser: ArrayList<User>) :
+class UserAdapter(private val listUser: ArrayList<RemoteUser>) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemDataBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
@@ -19,12 +19,10 @@ class UserAdapter(private val listUser: ArrayList<User>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = listUser[position]
         Glide.with(holder.itemView.context)
-            .load(user.avatar)
+            .load(user.avatarUrl)
             .circleCrop()
             .into(holder.binding.imgItem)
-        holder.binding.tvUserName.text = user.username
-        holder.binding.tvAddress.text = user.location
-        holder.binding.tvCompany.text = user.company
+        holder.binding.tvUserName.text = user.login
         holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(listUser[holder.adapterPosition]) }
     }
 
@@ -37,6 +35,6 @@ class UserAdapter(private val listUser: ArrayList<User>) :
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: User)
+        fun onItemClicked(data: RemoteUser)
     }
 }

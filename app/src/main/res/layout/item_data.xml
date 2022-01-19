@@ -14,50 +14,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="12dp">
 
         <ImageView
             android:id="@+id/imgItem"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            tools:src="@android:color/darker_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/tvUserName"
-            style="@style/TextView.Title"
+            style="@style/TextView.SubTitle"
             android:ellipsize="end"
             android:lines="1"
+            app:layout_constraintBottom_toBottomOf="@+id/imgItem"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgItem"
             app:layout_constraintTop_toTopOf="@+id/imgItem"
             tools:text="@string/name" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_location"
-            app:layout_constraintStart_toEndOf="@+id/imgItem"
-            app:layout_constraintTop_toBottomOf="@+id/tvCompany" />
-
-        <TextView
-            android:id="@+id/tvCompany"
-            style="@style/TextView.Content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgItem"
-            app:layout_constraintTop_toBottomOf="@+id/tvUserName"
-            tools:text="@string/company" />
-
-        <TextView
-            android:id="@+id/tvAddress"
-            style="@style/TextView.Content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/tvCompany"
-            tools:text="Padang" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
