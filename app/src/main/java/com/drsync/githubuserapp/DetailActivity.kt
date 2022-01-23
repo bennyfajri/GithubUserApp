@@ -70,16 +70,31 @@ class DetailActivity : AppCompatActivity() {
             binding.icRepository.visibility = View.GONE
             binding.textRepository.visibility = View.GONE
         }
+
         if(detail.company != null) {
             binding.tvCompany.text = detail.company
         } else {
             binding.icCompany.visibility = View.GONE
         }
+
         if(detail.location != null) {
             binding.tvLocation.text = detail.location
         } else {
             binding.icLokasi.visibility = View.GONE
         }
+
+        if(detail.followers != null) {
+            binding.tvFollower.text = detail.followers.toString()
+        } else {
+            binding.tvFollower.text = "0"
+        }
+
+        if(detail.following != null) {
+            binding.tvFollowing.text = detail.following.toString()
+        } else {
+            binding.tvFollowing.text = "0"
+        }
+
         Glide.with(this)
             .load(detail.avatarUrl)
             .circleCrop()
