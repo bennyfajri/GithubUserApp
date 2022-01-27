@@ -4,118 +4,28 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.drsync.githubuserapp.data.remote.ApiConfig
+import com.drsync.githubuserapp.data.remote.DetailResponse
+import com.drsync.githubuserapp.data.remote.RemoteUser
+import com.drsync.githubuserapp.repository.UserRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     companion object {
         const val TAG = "githupuserapp"
     }
 
-    private val _searchUser = MutableLiveData<ArrayList<RemoteUser>>()
-    val searchUser: LiveData<ArrayList<RemoteUser>> = _searchUser
+    val isLoading = userRepository.isLoading
+    val searchUser = userRepository.searchUser
+    val detailUser = userRepository.detailUser
+    val follower = userRepository.follower
+    val following = userRepository.following
 
-    private val _detailUser = MutableLiveData<DetailResponse>()
-    val detailUser: LiveData<DetailResponse> = _detailUser
-
-    private val _follower = MutableLiveData<ArrayList<RemoteUser>>()
-    val follower: LiveData<ArrayList<RemoteUser>> = _follower
-
-    private val _following = MutableLiveData<ArrayList<RemoteUser>>()
-    val following: LiveData<ArrayList<RemoteUser>> = _following
-
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
-    fun getSearchUser(username: String) {
-        _isLoading.value = true
-        val client = ApiConfig.getApiService().getSearchUser(username)
-        client.enqueue(object: Callback<SearchResponse>{
-            override fun onResponse(
-                call: Call<SearchResponse>,
-                response: Response<SearchResponse>
-            ) {
-                _isLoading.value = false
-                if(response.isSuccessful) {
-                    _searchUser.value = response.body()?.items
-                } else {
-                    Log.d(TAG, "onFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message.toString()}")
-            }
-
-        })
-    }
-
-    fun getDetailUser(username: String) {
-        _isLoading.value = true
-        val client = ApiConfig.getApiService().getDetailUser(username)
-        client.enqueue(object: Callback<DetailResponse>{
-            override fun onResponse(
-                call: Call<DetailResponse>,
-                response: Response<DetailResponse>
-            ) {
-                _isLoading.value = false
-                if(response.isSuccessful) {
-                    _detailUser.value = response.body()
-                } else {
-                    Log.d(TAG, "onFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message.toString()}")
-            }
-
-        })
-    }
-
-    fun getFollower(username: String) {
-        _isLoading.value = true
-        val client = ApiConfig.getApiService().getFollower(username)
-        client.enqueue(object: Callback<ArrayList<RemoteUser>>{
-            override fun onResponse(
-                call: Call<ArrayList<RemoteUser>>,
-                response: Response<ArrayList<RemoteUser>>
-            ) {
-                _isLoading.value = false
-                if(response.isSuccessful) {
-                    _follower.value = response.body()
-                } else {
-                    Log.d(TAG, "onFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<ArrayList<RemoteUser>>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message.toString()}")
-            }
-        })
-    }
-
-    fun getFollowing(username: String) {
-        _isLoading.value = true
-        val client = ApiConfig.getApiService().getFollowing(username)
-        client.enqueue(object: Callback<ArrayList<RemoteUser>>{
-            override fun onResponse(
-                call: Call<ArrayList<RemoteUser>>,
-                response: Response<ArrayList<RemoteUser>>
-            ) {
-                _isLoading.value = false
-                if(response.isSuccessful) {
-                    _following.value = response.body()
-                } else {
-                    Log.d(TAG, "onFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<ArrayList<RemoteUser>>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message.toString()}")
-            }
-        })
-    }
+    fun getSearchUser(username: String) = userRepository.getSearchUser(username)
+    fun getDetailUser(username: String) = userRepository.getDetailUser(username)
+    fun getFollower(username: String) = userRepository.getFollower(username)
+    fun getFollowing(username: String) = userRepository.getFollowing(username)
 }

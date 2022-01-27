@@ -12,8 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GithubUserApp">
         <activity
-            android:name=".SplashActivity"
-            android:exported="true" >
+            android:name=".ui.SettingActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity"/>
+        <activity
+            android:name=".ui.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,11 +25,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DetailActivity"
+            android:name=".ui.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false"/>
+            android:name=".ui.MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

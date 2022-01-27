@@ -11,4 +11,5 @@
     <color name="abu_gelap">#455A64</color>
     <color name="pink">#D81B60</color>
     <color name="pink_pucat">#FF8FAF</color>
+    <color name="tab_icon_color">#000</color>
 </resources>

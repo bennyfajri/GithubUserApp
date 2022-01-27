@@ -1,9 +1,11 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.adapter
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.drsync.githubuserapp.ui.FollowerFragment
+import com.drsync.githubuserapp.ui.FollowingFragment
 
 
 class SectionPagerAdapter(activity: AppCompatActivity,val username: String): FragmentStateAdapter(activity) {

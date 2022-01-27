@@ -1,13 +1,17 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.ui
 
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.drsync.githubuserapp.*
+import com.drsync.githubuserapp.adapter.SectionPagerAdapter
+import com.drsync.githubuserapp.data.remote.DetailResponse
+import com.drsync.githubuserapp.data.remote.RemoteUser
 import com.drsync.githubuserapp.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -23,7 +27,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     lateinit var binding: ActivityDetailBinding
-    private val mainViewModel by viewModels<MainViewModel>()
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +43,9 @@ class DetailActivity : AppCompatActivity() {
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
+
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(this@DetailActivity)
+        mainViewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
         mainViewModel.getDetailUser(data?.login.toString())
 

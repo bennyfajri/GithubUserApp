@@ -1,5 +1,6 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.data.remote
 
+import com.drsync.githubuserapp.SearchResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

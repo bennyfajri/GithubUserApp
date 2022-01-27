@@ -1,23 +1,31 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.ui
 
-import android.app.SearchManager
-import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.drsync.githubuserapp.*
+import com.drsync.githubuserapp.adapter.UserAdapter
+import com.drsync.githubuserapp.data.remote.RemoteUser
 import com.drsync.githubuserapp.databinding.ActivityMainBinding
+import com.drsync.githubuserapp.repository.SettingPreferences
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    private val mainViewModel by viewModels<MainViewModel>()
+    private val dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+    lateinit var mainViewModel : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +34,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.rvUser.setHasFixedSize(true)
 
+        themeSettings()
+
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(this@MainActivity)
+        mainViewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
+
         mainViewModel.searchUser.observe(this@MainActivity, { response ->
             showRecyclerList(response)
         })
@@ -33,18 +46,8 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.isLoading.observe(this, { loading ->
             showLoading(loading)
         })
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.option_menu, menu)
-
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = menu.findItem(R.id.search).actionView as SearchView
-
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.queryHint = resources.getString(R.string.search_hint)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 mainViewModel.getSearchUser(query)
                 return true
@@ -53,7 +56,37 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         })
+    }
+
+    private fun themeSettings() {
+        val pref = SettingPreferences.getInstance(dataStore)
+        val settingViewModel = ViewModelProvider(this, SettingViewModelFactory(pref)).get(
+            SettingViewModel::class.java
+        )
+        settingViewModel.getThemeSettings().observe(this, { isDarkModeActive : Boolean ->
+            if(isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.option_menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.menuSetting -> {
+                val i = Intent(this@MainActivity, SettingActivity::class.java)
+                startActivity(i)
+                return true
+            }
+            else -> return true
+        }
     }
 
     private fun showLoading(loading: Boolean) {

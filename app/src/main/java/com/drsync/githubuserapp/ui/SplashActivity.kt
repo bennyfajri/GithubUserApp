@@ -1,4 +1,4 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.ui
 
 import android.content.Intent
 import android.os.Bundle

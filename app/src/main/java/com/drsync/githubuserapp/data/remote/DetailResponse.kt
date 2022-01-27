@@ -1,4 +1,4 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.data.remote
 
 import com.google.gson.annotations.SerializedName
 
