@@ -6,16 +6,22 @@
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/drawable/bg_button_disabled.xml" value="0.1" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/drawable/bg_button_enabled.xml" value="0.1" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1" />
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/drawable/ic_favorite.xml" value="0.1425925925925926" />
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/drawable/ic_favorited.xml" value="0.2703125" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/drawable/ic_location.xml" value="0.2703125" />
-        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/activity_detail.xml" value="0.2" />
-        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/activity_main.xml" value="0.16" />
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/drawable/ic_setting.xml" value="0.2703125" />
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/drawable/search_view_outline.xml" value="0.2703125" />
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/activity_detail.xml" value="0.176" />
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/activity_favorite.xml" value="0.1" />
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/activity_setting.xml" value="0.1" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/activity_splash.xml" value="0.1" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/fragment_follower.xml" value="0.1" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/fragment_following.xml" value="0.1" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/item_data.xml" value="0.264" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/progress_bar.xml" value="0.18206521739130435" />
         <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/layout/text_null.xml" value="0.152" />
-        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/menu/option_menu.xml" value="0.1" />
+        <entry key="..\:/App/Android/DicodingFundamental/GithubUserApp/app/src/main/res/menu/option_menu.xml" value="0.2" />
       </map>
     </option>
   </component>

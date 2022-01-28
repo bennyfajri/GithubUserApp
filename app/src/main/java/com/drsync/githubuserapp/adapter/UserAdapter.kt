@@ -1,9 +1,10 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.drsync.githubuserapp.data.remote.RemoteUser
 import com.drsync.githubuserapp.databinding.ItemDataBinding
 
 class UserAdapter(private val listUser: ArrayList<RemoteUser>) :

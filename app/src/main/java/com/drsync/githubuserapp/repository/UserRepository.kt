@@ -1,18 +1,23 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.drsync.githubuserapp.viewmodels.MainViewModel
+import com.drsync.githubuserapp.data.remote.SearchResponse
+import com.drsync.githubuserapp.data.local.UserDao
+import com.drsync.githubuserapp.data.local.UserEntity
+import com.drsync.githubuserapp.data.remote.ApiService
+import com.drsync.githubuserapp.data.remote.DetailResponse
+import com.drsync.githubuserapp.data.remote.RemoteUser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel : ViewModel() {
-
-    companion object {
-        const val TAG = "githupuserapp"
-    }
+class UserRepository private constructor(
+    private val apiService: ApiService,
+    private val userDao: UserDao
+) {
 
     private val _searchUser = MutableLiveData<ArrayList<RemoteUser>>()
     val searchUser: LiveData<ArrayList<RemoteUser>> = _searchUser
@@ -31,8 +36,8 @@ class MainViewModel : ViewModel() {
 
     fun getSearchUser(username: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getSearchUser(username)
-        client.enqueue(object: Callback<SearchResponse>{
+        val client = apiService.getSearchUser(username)
+        client.enqueue(object: Callback<SearchResponse> {
             override fun onResponse(
                 call: Call<SearchResponse>,
                 response: Response<SearchResponse>
@@ -41,12 +46,12 @@ class MainViewModel : ViewModel() {
                 if(response.isSuccessful) {
                     _searchUser.value = response.body()?.items
                 } else {
-                    Log.d(TAG, "onFailure: ${response.message()}")
+                    Log.d(MainViewModel.TAG, "onFailure: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message.toString()}")
+                Log.d(MainViewModel.TAG, "onFailure: ${t.message.toString()}")
             }
 
         })
@@ -54,7 +59,7 @@ class MainViewModel : ViewModel() {
 
     fun getDetailUser(username: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getDetailUser(username)
+        val client = apiService.getDetailUser(username)
         client.enqueue(object: Callback<DetailResponse>{
             override fun onResponse(
                 call: Call<DetailResponse>,
@@ -64,12 +69,12 @@ class MainViewModel : ViewModel() {
                 if(response.isSuccessful) {
                     _detailUser.value = response.body()
                 } else {
-                    Log.d(TAG, "onFailure: ${response.message()}")
+                    Log.d(MainViewModel.TAG, "onFailure: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message.toString()}")
+                Log.d(MainViewModel.TAG, "onFailure: ${t.message.toString()}")
             }
 
         })
@@ -77,7 +82,7 @@ class MainViewModel : ViewModel() {
 
     fun getFollower(username: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getFollower(username)
+        val client = apiService.getFollower(username)
         client.enqueue(object: Callback<ArrayList<RemoteUser>>{
             override fun onResponse(
                 call: Call<ArrayList<RemoteUser>>,
@@ -87,19 +92,19 @@ class MainViewModel : ViewModel() {
                 if(response.isSuccessful) {
                     _follower.value = response.body()
                 } else {
-                    Log.d(TAG, "onFailure: ${response.message()}")
+                    Log.d(MainViewModel.TAG, "onFailure: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<RemoteUser>>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message.toString()}")
+                Log.d(MainViewModel.TAG, "onFailure: ${t.message.toString()}")
             }
         })
     }
 
     fun getFollowing(username: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getFollowing(username)
+        val client = apiService.getFollowing(username)
         client.enqueue(object: Callback<ArrayList<RemoteUser>>{
             override fun onResponse(
                 call: Call<ArrayList<RemoteUser>>,
@@ -109,13 +114,46 @@ class MainViewModel : ViewModel() {
                 if(response.isSuccessful) {
                     _following.value = response.body()
                 } else {
-                    Log.d(TAG, "onFailure: ${response.message()}")
+                    Log.d(MainViewModel.TAG, "onFailure: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<RemoteUser>>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message.toString()}")
+                Log.d(MainViewModel.TAG, "onFailure: ${t.message.toString()}")
             }
         })
     }
+
+    suspend fun insertFavorite(user: UserEntity) {
+        val mUser = UserEntity(
+            user.login,
+            user.avatarUrl,
+            true
+        )
+        userDao.insertFavorite(mUser)
+    }
+
+    suspend fun deleteFavorite(user: UserEntity) {
+        val mUser = UserEntity(user.login, user.avatarUrl, false)
+        userDao.deleteFavorite(mUser)
+    }
+
+    fun getAllFavorited(): LiveData<List<UserEntity>> = userDao.getUser()
+
+    suspend fun isUserFavorited(username: String): Boolean {
+        return userDao.isUserFavorite(username)
+    }
+
+    companion object {
+        @Volatile
+        private var instance: UserRepository? = null
+        fun getInstance(
+            apiService: ApiService,
+            userDao: UserDao
+        ): UserRepository =
+            instance ?: synchronized(this) {
+                instance ?: UserRepository(apiService, userDao)
+            }.also { instance = it }
+    }
+
 }

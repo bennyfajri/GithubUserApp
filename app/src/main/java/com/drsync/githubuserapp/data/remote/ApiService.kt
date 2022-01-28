@@ -1,4 +1,4 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.data.remote
 
 import retrofit2.Call
 import retrofit2.http.GET

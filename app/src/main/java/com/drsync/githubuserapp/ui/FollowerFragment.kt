@@ -1,24 +1,28 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.ui
 
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.drsync.githubuserapp.SectionPagerAdapter.Companion.BUNDLE_TAG
+import com.drsync.githubuserapp.viewmodels.MainViewModel
+import com.drsync.githubuserapp.viewmodels.ViewModelFactory
+import com.drsync.githubuserapp.adapter.SectionPagerAdapter.Companion.BUNDLE_TAG
+import com.drsync.githubuserapp.adapter.UserAdapter
+import com.drsync.githubuserapp.data.remote.RemoteUser
 import com.drsync.githubuserapp.databinding.FragmentFollowerBinding
-import java.util.ArrayList
+import java.util.*
 
 class FollowerFragment : Fragment() {
 
     private var _binding: FragmentFollowerBinding? = null
     private val binding get() = _binding!!
-    private val mainViewModel by viewModels<MainViewModel>()
+    private lateinit var mainViewModel: MainViewModel
 
 
     override fun onCreateView(
@@ -34,6 +38,9 @@ class FollowerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val username = arguments?.getString(BUNDLE_TAG)
+
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(requireContext())
+        mainViewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
         mainViewModel.getFollower(username.toString())
 
