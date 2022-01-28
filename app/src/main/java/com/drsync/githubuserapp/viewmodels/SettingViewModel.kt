@@ -1,4 +1,4 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.viewmodels
 
 import androidx.lifecycle.*
 import com.drsync.githubuserapp.repository.SettingPreferences

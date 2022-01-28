@@ -1,4 +1,4 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

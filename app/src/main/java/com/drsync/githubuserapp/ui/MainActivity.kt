@@ -20,6 +20,10 @@ import com.drsync.githubuserapp.adapter.UserAdapter
 import com.drsync.githubuserapp.data.remote.RemoteUser
 import com.drsync.githubuserapp.databinding.ActivityMainBinding
 import com.drsync.githubuserapp.repository.SettingPreferences
+import com.drsync.githubuserapp.viewmodels.MainViewModel
+import com.drsync.githubuserapp.viewmodels.SettingViewModel
+import com.drsync.githubuserapp.viewmodels.SettingViewModelFactory
+import com.drsync.githubuserapp.viewmodels.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -82,6 +86,11 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId) {
             R.id.menuSetting -> {
                 val i = Intent(this@MainActivity, SettingActivity::class.java)
+                startActivity(i)
+                return true
+            }
+            R.id.menuFavorite -> {
+                val i = Intent(this@MainActivity, FavoriteActivity::class.java)
                 startActivity(i)
                 return true
             }

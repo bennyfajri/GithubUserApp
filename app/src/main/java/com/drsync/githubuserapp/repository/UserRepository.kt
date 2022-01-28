@@ -3,10 +3,10 @@ package com.drsync.githubuserapp.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.drsync.githubuserapp.MainViewModel
-import com.drsync.githubuserapp.SearchResponse
+import com.drsync.githubuserapp.viewmodels.MainViewModel
+import com.drsync.githubuserapp.data.remote.SearchResponse
 import com.drsync.githubuserapp.data.local.UserDao
-import com.drsync.githubuserapp.data.remote.ApiConfig
+import com.drsync.githubuserapp.data.local.UserEntity
 import com.drsync.githubuserapp.data.remote.ApiService
 import com.drsync.githubuserapp.data.remote.DetailResponse
 import com.drsync.githubuserapp.data.remote.RemoteUser
@@ -122,6 +122,26 @@ class UserRepository private constructor(
                 Log.d(MainViewModel.TAG, "onFailure: ${t.message.toString()}")
             }
         })
+    }
+
+    suspend fun insertFavorite(user: UserEntity) {
+        val mUser = UserEntity(
+            user.login,
+            user.avatarUrl,
+            true
+        )
+        userDao.insertFavorite(mUser)
+    }
+
+    suspend fun deleteFavorite(user: UserEntity) {
+        val mUser = UserEntity(user.login, user.avatarUrl, false)
+        userDao.deleteFavorite(mUser)
+    }
+
+    fun getAllFavorited(): LiveData<List<UserEntity>> = userDao.getUser()
+
+    suspend fun isUserFavorited(username: String): Boolean {
+        return userDao.isUserFavorite(username)
     }
 
     companion object {

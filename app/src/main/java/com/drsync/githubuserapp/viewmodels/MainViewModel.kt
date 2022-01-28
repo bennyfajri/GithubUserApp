@@ -1,16 +1,12 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.drsync.githubuserapp.data.remote.ApiConfig
-import com.drsync.githubuserapp.data.remote.DetailResponse
-import com.drsync.githubuserapp.data.remote.RemoteUser
+import androidx.lifecycle.viewModelScope
+import com.drsync.githubuserapp.data.local.UserEntity
 import com.drsync.githubuserapp.repository.UserRepository
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 
 class MainViewModel(private val userRepository: UserRepository) : ViewModel() {
 
@@ -23,9 +19,32 @@ class MainViewModel(private val userRepository: UserRepository) : ViewModel() {
     val detailUser = userRepository.detailUser
     val follower = userRepository.follower
     val following = userRepository.following
+    private val _isFavorited = MutableLiveData<Boolean>()
+    val isFavorited: LiveData<Boolean> = _isFavorited
 
     fun getSearchUser(username: String) = userRepository.getSearchUser(username)
     fun getDetailUser(username: String) = userRepository.getDetailUser(username)
     fun getFollower(username: String) = userRepository.getFollower(username)
     fun getFollowing(username: String) = userRepository.getFollowing(username)
+
+    fun insertFavorite(user: UserEntity) {
+        viewModelScope.launch {
+            userRepository.insertFavorite(user)
+        }
+    }
+
+    fun deleteFavorite(user: UserEntity) {
+        viewModelScope.launch {
+            userRepository.deleteFavorite(user)
+        }
+    }
+
+    fun getAllFavorited(): LiveData<List<UserEntity>> = userRepository.getAllFavorited()
+
+    fun isUserFavorited(username: String){
+        _isFavorited.value = false
+        viewModelScope.launch {
+            _isFavorited.value = userRepository.isUserFavorited(username)
+        }
+    }
 }

@@ -1,7 +1,6 @@
-package com.drsync.githubuserapp
+package com.drsync.githubuserapp.data.remote
 
 import android.os.Parcelable
-import com.drsync.githubuserapp.data.remote.RemoteUser
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 

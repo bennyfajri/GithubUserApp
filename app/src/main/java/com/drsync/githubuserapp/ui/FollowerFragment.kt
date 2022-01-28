@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.drsync.githubuserapp.MainViewModel
-import com.drsync.githubuserapp.ViewModelFactory
+import com.drsync.githubuserapp.viewmodels.MainViewModel
+import com.drsync.githubuserapp.viewmodels.ViewModelFactory
 import com.drsync.githubuserapp.adapter.SectionPagerAdapter.Companion.BUNDLE_TAG
 import com.drsync.githubuserapp.adapter.UserAdapter
 import com.drsync.githubuserapp.data.remote.RemoteUser
