@@ -22,14 +22,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailActivity : AppCompatActivity() {
 
-    companion object {
-        @StringRes
-        private val TAB_TITLES = intArrayOf(
-            R.string.followers,
-            R.string.following
-        )
-    }
-
     lateinit var binding: ActivityDetailBinding
     private lateinit var mainViewModel: MainViewModel
     private var isFavorited: Boolean = false
@@ -39,7 +31,7 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val data = intent.getParcelableExtra<RemoteUser>("data")
+        val data = intent.getParcelableExtra<RemoteUser>(DATA_TAG)
 
         val sectionPagerAdapter = SectionPagerAdapter(this, data?.login.toString())
         val viewPager: ViewPager2 = binding.viewPager
@@ -74,7 +66,7 @@ class DetailActivity : AppCompatActivity() {
                 mainViewModel.insertFavorite(mUser)
                 Toast.makeText(
                     applicationContext,
-                    "Favorited",
+                    R.string.favorited,
                     Toast.LENGTH_SHORT
                 ).show()
                 mainViewModel.isUserFavorited(data?.login.toString())
@@ -82,7 +74,7 @@ class DetailActivity : AppCompatActivity() {
                 mainViewModel.deleteFavorite(mUser)
                 Toast.makeText(
                     applicationContext,
-                    "Delete Favorite",
+                    R.string.delete_favorited,
                     Toast.LENGTH_SHORT
                 ).show()
                 mainViewModel.isUserFavorited(data?.login.toString())
@@ -99,11 +91,9 @@ class DetailActivity : AppCompatActivity() {
             }
         })
 
-
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.title = "Detail User"
+        supportActionBar?.title = getString(R.string.detail_user)
         supportActionBar?.elevation = 0f
 
     }
@@ -134,17 +124,8 @@ class DetailActivity : AppCompatActivity() {
             binding.icLokasi.visibility = View.GONE
         }
 
-        if (detail.followers != null) {
-            binding.tvFollower.text = detail.followers.toString()
-        } else {
-            binding.tvFollower.text = "0"
-        }
-
-        if (detail.following != null) {
-            binding.tvFollowing.text = detail.following.toString()
-        } else {
-            binding.tvFollowing.text = "0"
-        }
+        binding.tvFollower.text = detail.followers.toString() ?: "0"
+        binding.tvFollowing.text = detail.following.toString() ?: "0"
 
         Glide.with(this)
             .load(detail.avatarUrl)
@@ -157,4 +138,16 @@ class DetailActivity : AppCompatActivity() {
         if (item.itemId == android.R.id.home) finish()
         return super.onOptionsItemSelected(item)
     }
+
+
+    companion object {
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.followers,
+            R.string.following
+        )
+
+        const val DATA_TAG = "DATA"
+    }
+
 }

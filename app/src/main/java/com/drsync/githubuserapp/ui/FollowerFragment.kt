@@ -16,6 +16,7 @@ import com.drsync.githubuserapp.adapter.SectionPagerAdapter.Companion.BUNDLE_TAG
 import com.drsync.githubuserapp.adapter.UserAdapter
 import com.drsync.githubuserapp.data.remote.RemoteUser
 import com.drsync.githubuserapp.databinding.FragmentFollowerBinding
+import com.drsync.githubuserapp.ui.DetailActivity.Companion.DATA_TAG
 import java.util.*
 
 class FollowerFragment : Fragment() {
@@ -70,7 +71,7 @@ class FollowerFragment : Fragment() {
         userAdapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: RemoteUser) {
                 val intent = Intent(requireContext(), DetailActivity::class.java)
-                intent.putExtra("data", data)
+                intent.putExtra(DATA_TAG, data)
                 startActivity(intent)
             }
         })

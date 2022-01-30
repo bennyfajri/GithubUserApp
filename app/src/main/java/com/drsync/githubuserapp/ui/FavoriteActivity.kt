@@ -13,6 +13,7 @@ import com.drsync.githubuserapp.adapter.FavoriteAdapter
 import com.drsync.githubuserapp.data.local.UserEntity
 import com.drsync.githubuserapp.data.remote.RemoteUser
 import com.drsync.githubuserapp.databinding.ActivityFavoriteBinding
+import com.drsync.githubuserapp.ui.DetailActivity.Companion.DATA_TAG
 
 class FavoriteActivity : AppCompatActivity() {
 
@@ -53,7 +54,7 @@ class FavoriteActivity : AppCompatActivity() {
                     "", "", ""
                 )
                 val intent = Intent(this@FavoriteActivity, DetailActivity::class.java)
-                intent.putExtra("data", mRemoteUser)
+                intent.putExtra(DATA_TAG, mRemoteUser)
                 startActivity(intent)
             }
         })

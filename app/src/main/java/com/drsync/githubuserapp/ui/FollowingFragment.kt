@@ -16,6 +16,7 @@ import com.drsync.githubuserapp.adapter.SectionPagerAdapter
 import com.drsync.githubuserapp.adapter.UserAdapter
 import com.drsync.githubuserapp.data.remote.RemoteUser
 import com.drsync.githubuserapp.databinding.FragmentFollowingBinding
+import com.drsync.githubuserapp.ui.DetailActivity.Companion.DATA_TAG
 import java.util.*
 
 class FollowingFragment : Fragment() {
@@ -47,7 +48,7 @@ class FollowingFragment : Fragment() {
             showFollowerData(response)
         })
 
-        mainViewModel.isLoading.observe(this, { loading ->
+        mainViewModel.isLoading.observe(viewLifecycleOwner , { loading ->
             showLoading(loading)
         })
 
@@ -69,7 +70,7 @@ class FollowingFragment : Fragment() {
         userAdapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: RemoteUser) {
                 val intent = Intent(requireContext(), DetailActivity::class.java)
-                intent.putExtra("data", data)
+                intent.putExtra(DATA_TAG, data)
                 startActivity(intent)
             }
         })
