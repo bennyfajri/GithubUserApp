@@ -10,10 +10,6 @@ import com.drsync.githubuserapp.ui.FollowingFragment
 
 class SectionPagerAdapter(activity: AppCompatActivity,val username: String): FragmentStateAdapter(activity) {
 
-    companion object{
-        const val BUNDLE_TAG = "username"
-    }
-
     override fun createFragment(position: Int): Fragment {
         var fragment: Fragment? = null
         when(position) {
@@ -36,5 +32,8 @@ class SectionPagerAdapter(activity: AppCompatActivity,val username: String): Fra
 
     override fun getItemCount(): Int = 2
 
+    companion object{
+        const val BUNDLE_TAG = "username"
+    }
 
 }

@@ -20,6 +20,7 @@ import com.drsync.githubuserapp.adapter.UserAdapter
 import com.drsync.githubuserapp.data.remote.RemoteUser
 import com.drsync.githubuserapp.databinding.ActivityMainBinding
 import com.drsync.githubuserapp.repository.SettingPreferences
+import com.drsync.githubuserapp.ui.DetailActivity.Companion.DATA_TAG
 import com.drsync.githubuserapp.viewmodels.MainViewModel
 import com.drsync.githubuserapp.viewmodels.SettingViewModel
 import com.drsync.githubuserapp.viewmodels.SettingViewModelFactory
@@ -114,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         userAdapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: RemoteUser) {
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                intent.putExtra("data", data)
+                intent.putExtra(DATA_TAG, data)
                 startActivity(intent)
             }
         })

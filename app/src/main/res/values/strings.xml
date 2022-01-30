@@ -10,4 +10,7 @@
     <string name="favorite_user">Favorite User</string>
     <string name="change_theme">Change theme</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="favorited">Favorited</string>
+    <string name="delete_favorited">Delete Favorited</string>
+    <string name="detail_user">Detail User</string>
 </resources>
